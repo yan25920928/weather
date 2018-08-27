@@ -1,6 +1,6 @@
 package com.star.coolweather.db;
 
-import org.litepal.crud.LitePalSupport;
+import org.litepal.crud.DataSupport;
 
 /**
  * ********************************************************
@@ -11,7 +11,7 @@ import org.litepal.crud.LitePalSupport;
  * 版本：v1.0
  * ********************************************************
  */
-public class City extends LitePalSupport {
+public class City extends DataSupport {
 
     private int id;
     private String cityName;
