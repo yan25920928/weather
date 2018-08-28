@@ -10,7 +10,7 @@ package com.star.coolweather.gson;
  * ********************************************************
  */
 public class AQI {
-    public AQICity mCity;
+    public AQICity city;
 
     public class AQICity {
         public String aqi;

@@ -94,10 +94,10 @@ public class WeatherActivity extends AppCompatActivity {
 
         String cityName = weather.mBasic.cityName;
         //截取数据
-        String updateTime = weather.mBasic.mUpdate.updateTime.split(" ")[1];
+        String updateTime = weather.mBasic.update.updateTime.split(" ")[1];
         //摄氏度
         String degree = weather.mNow.temperature + getResources().getString(R.string.weather_info_temperature_degree);
-        String weatherInfo = weather.mNow.mMore.info;
+        String weatherInfo = weather.mNow.more.info;
         mTitleCity.setText(cityName);
         mDegreeText.setText(degree);
         mTitleUpdateTime.setText(updateTime);
@@ -108,28 +108,28 @@ public class WeatherActivity extends AppCompatActivity {
         //循环加载，显示预测信息
         for (Forecast forecast : weather.mForecastList) {
             View view = LayoutInflater.from(this).inflate(R.layout.forecast_item, mForecastLayout, false);
-            TextView dateText = findViewById(R.id.date_text);
-            TextView infoText = findViewById(R.id.info_text);
-            TextView maxText = findViewById(R.id.max_text);
-            TextView minText = findViewById(R.id.min_text);
+            TextView dateText = view.findViewById(R.id.date_text);
+            TextView infoText = view.findViewById(R.id.info_text);
+            TextView maxText = view.findViewById(R.id.max_text);
+            TextView minText = view.findViewById(R.id.min_text);
             dateText.setText(forecast.date);
-            infoText.setText(forecast.mMore.info);
-            maxText.setText(forecast.mTemperature.max);
-            minText.setText(forecast.mTemperature.min);
+            infoText.setText(forecast.more.info);
+            maxText.setText(forecast.temperature.max);
+            minText.setText(forecast.temperature.min);
             mForecastLayout.addView(view);
         }
         //显示指数信息
         if (weather.mAQI != null) {
-            mAqiText.setText(weather.mAQI.mCity.aqi);
-            mPm25Text.setText(weather.mAQI.mCity.pm25);
+            mAqiText.setText(weather.mAQI.city.aqi);
+            mPm25Text.setText(weather.mAQI.city.pm25);
         }
         //显示建议信息
         String comfort = getResources().getString(R.string.suggestion_life) +
-                weather.mSuggestion.mComfort.info;
+                weather.mSuggestion.comfort.info;
         String carWash = getResources().getString(R.string.suggestion_carWash_index) +
-                weather.mSuggestion.mCarWash.info;
+                weather.mSuggestion.carWash.info;
         String sport = getResources().getString(R.string.suggestion_sport) +
-                weather.mSuggestion.mSport.info;
+                weather.mSuggestion.sport.info;
 
         mComfortText.setText(comfort);
         mCarWashText.setText(carWash);
