@@ -13,7 +13,7 @@ public class AQI {
     public AQICity mCity;
 
     public class AQICity {
-        public String api;
+        public String aqi;
         public String pm25;
     }
 }

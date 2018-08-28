@@ -6,4 +6,8 @@
     <string name="aqi_index">AQI指数</string>
     <string name="aqi_PM25_index">PM2.5指数</string>
     <string name="suggestion_life">生活建议</string>
+    <string name="suggestion_comfort">舒适度</string>
+    <string name="suggestion_carWash_index">洗车指数</string>
+    <string name="suggestion_sport">运动建议</string>
+    <string name="weather_info_temperature_degree">\"℃\"</string>
 </resources>
