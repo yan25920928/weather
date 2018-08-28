@@ -1,6 +1,7 @@
 package com.star.coolweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.star.coolweather.db.City;
@@ -105,6 +106,7 @@ public class Utility {
 
     /**
      * 将返回Json数据解析成Weather实体类
+     * TODO:健壮性，数据容错，如果数据不合规怎么处理？
      * @param response
      * @return
      */
@@ -113,6 +115,7 @@ public class Utility {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
             String weatherContent = jsonArray.getJSONObject(0).toString();
+            Log.d("weatherContentInfo",weatherContent);
             return new Gson().fromJson(weatherContent,Weather.class);
         } catch (JSONException e) {
             e.printStackTrace();

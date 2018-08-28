@@ -85,6 +85,13 @@ public class WeatherActivity extends AppCompatActivity {
      * @param weather
      */
     private void showWeatherInfo(Weather weather) {
+
+        //校验天气数据
+        if (!checkWeatherInfo(weather)) {
+            Toast.makeText(WeatherActivity.this, "解析天气信息失败", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String cityName = weather.mBasic.cityName;
         //截取数据
         String updateTime = weather.mBasic.mUpdate.updateTime.split(" ")[1];
@@ -112,31 +119,46 @@ public class WeatherActivity extends AppCompatActivity {
             mForecastLayout.addView(view);
         }
         //显示指数信息
-        if (weather.mAQI != null){
+        if (weather.mAQI != null) {
             mAqiText.setText(weather.mAQI.mCity.aqi);
             mPm25Text.setText(weather.mAQI.mCity.pm25);
         }
         //显示建议信息
-        String comfort = getResources().getString(R.string.suggestion_life)+
+        String comfort = getResources().getString(R.string.suggestion_life) +
                 weather.mSuggestion.mComfort.info;
-        String carWash = getResources().getString(R.string.suggestion_carWash_index)+
+        String carWash = getResources().getString(R.string.suggestion_carWash_index) +
                 weather.mSuggestion.mCarWash.info;
-        String sport = getResources().getString(R.string.suggestion_sport)+
+        String sport = getResources().getString(R.string.suggestion_sport) +
                 weather.mSuggestion.mSport.info;
 
         mComfortText.setText(comfort);
         mCarWashText.setText(carWash);
         mSportText.setText(sport);
         mWeatherLayout.setVisibility(View.VISIBLE);
+
+    }
+
+    /**
+     * weather数据映射gson，进行非空判断
+     * @param weather
+     * @return
+     */
+    private boolean checkWeatherInfo(Weather weather) {
+        return  weather.mBasic != null &&
+                weather.mSuggestion != null &&
+                weather.mAQI != null &&
+                weather.mNow != null &&
+                weather.mForecastList != null;
     }
 
     /**
      * 请求城市天气信息，并缓存到SharedPreferences中
+     *
      * @param weatherId 天气id
      */
-    public void requestWeather(final String weatherId){
+    public void requestWeather(final String weatherId) {
         //TODO:KEY记得去申请
-        String weatherUrl = "http:guolin.tech/api/weather?cityid="+weatherId+"&key=";
+        String weatherUrl = "http:guolin.tech/api/weather?cityid=" + weatherId + "&key=dd9d0d2964654269b9516851456f28cb";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -144,7 +166,7 @@ public class WeatherActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_LONG).show();
+                        Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -156,14 +178,14 @@ public class WeatherActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (weather != null && "ok".equals(weather.status)){
+                        if (weather != null && "ok".equals(weather.status)) {
                             SharedPreferences.Editor editor =
                                     PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-                            editor.putString("weather",responseText);
+                            editor.putString("weather", responseText);
                             editor.apply();
                             showWeatherInfo(weather);
-                        }else {
-                            Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

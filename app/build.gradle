@@ -29,6 +29,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     //参考glide在github上的使用说明
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+//    implementation 'com.github.bumptech.glide:glide:4.8.0'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }
