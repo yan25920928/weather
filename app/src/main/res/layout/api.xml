@@ -60,8 +60,7 @@
 
                 <TextView
                     style="@style/aqi_info"
-                    android:text="@string/aqi_PM25_index"
-                    android:textSize="40sp"/>
+                    android:text="@string/aqi_PM25_index"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
