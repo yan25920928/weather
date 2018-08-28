@@ -13,7 +13,7 @@ import java.util.List;
  * 版本：v1.0
  * ********************************************************
  */
-public class Weater {
+public class Weather {
     public String status;
     public Basic mBasic;
     public AQI mAQI;
