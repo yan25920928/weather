@@ -7,6 +7,13 @@
     android:background="@color/colorPrimary"
     tools:context=".WeatherActivity">
 
+    <!--添加每日一图的图片背景-->
+    <ImageView
+        android:id="@+id/skin_bing_pic_img"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="match_parent"/>
+
     <ScrollView
         android:id="@+id/weather_layout"
         android:layout_width="match_parent"

@@ -6,11 +6,13 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.star.coolweather.gson.Forecast;
 import com.star.coolweather.gson.Weather;
 import com.star.coolweather.util.HttpUtil;
@@ -35,6 +37,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView mCarWashText;
     private TextView mSportText;
     private TextView mDegreeText;
+    private ImageView mBingPicImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,14 @@ public class WeatherActivity extends AppCompatActivity {
     private void initData() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
+        String bingPic = prefs.getString("bing_pic",null);
         if (weatherString != null) {
+            //本地是否缓存图片
+            if (bingPic != null){
+                Glide.with(this).load(bingPic).into(mBingPicImg);
+            }else {
+                loadBingPic();
+            }
             //有缓存直接解析天气数据
             Weather weather = Utility.handleWeatherResponse(weatherString);
             showWeatherInfo(weather);
@@ -77,6 +87,7 @@ public class WeatherActivity extends AppCompatActivity {
         mComfortText = findViewById(R.id.comfort_text);
         mCarWashText = findViewById(R.id.car_wash_text);
         mSportText = findViewById(R.id.sport_text);
+        mBingPicImg = findViewById(R.id.skin_bing_pic_img);
     }
 
     /**
@@ -152,11 +163,41 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     /**
+     * 加载必应每日图片
+     */
+    private void loadBingPic(){
+        String requestBingPic = "http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingPic = response.body().string();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
+                        WeatherActivity.this).edit();
+                editor.putString("bing_pic", bingPic);
+                editor.apply();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(WeatherActivity.this).load(bingPic).into(mBingPicImg);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
      * 请求城市天气信息，并缓存到SharedPreferences中
      *
      * @param weatherId 天气id
      */
     public void requestWeather(final String weatherId) {
+        //加载背景图片
+        loadBingPic();
         //TODO:KEY记得去申请
         String weatherUrl = "http:guolin.tech/api/weather?cityid=" + weatherId + "&key=dd9d0d2964654269b9516851456f28cb";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
