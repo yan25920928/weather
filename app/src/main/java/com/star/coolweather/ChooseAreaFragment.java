@@ -94,12 +94,22 @@ public class ChooseAreaFragment extends Fragment {
                     selectedCity = mCityList.get(position);
                     queryCounties();
                     //传递weatherId,显示地区具体天气信息
-                }else if (currentLevel == LEVEL_COUNTY){
+                } else if (currentLevel == LEVEL_COUNTY) {
                     String weatherId = mCountyList.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
-                    intent.putExtra("weather_id", weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    //判断是否在MainActivity中
+                    if (getActivity() instanceof MainActivity) {
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weatherId", weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+
+                    } else if (getActivity() instanceof WeatherActivity) {
+                     //如果在WeatherActivity中
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.mDrawerLayout.closeDrawers();
+                        activity.mSwipeRefreshLayout.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+                    }
                 }
             }
         });
@@ -210,7 +220,7 @@ public class ChooseAreaFragment extends Fragment {
                     @Override
                     public void run() {
                         closeProgressDialog();
-                        Toast.makeText(getContext(),"加载失败",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -250,7 +260,7 @@ public class ChooseAreaFragment extends Fragment {
      * 显示进度框
      */
     private void showProgressDialog() {
-        if (mProgressDialog == null){
+        if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setMessage("正在加载");
             mProgressDialog.setCanceledOnTouchOutside(false);
@@ -262,7 +272,7 @@ public class ChooseAreaFragment extends Fragment {
      * 隐藏进度框
      */
     private void closeProgressDialog() {
-        if (mProgressDialog != null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
     }

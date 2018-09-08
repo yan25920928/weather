@@ -5,10 +5,13 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -41,7 +44,10 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView mSportText;
     private TextView mDegreeText;
     private ImageView mBingPicImg;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private Button mNavButton;
+    //需要在ChooseAreaFragment中被调用
+    public DrawerLayout mDrawerLayout;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
         initView();
         initData();
+        setListener();
     }
 
     /**
@@ -110,6 +117,8 @@ public class WeatherActivity extends AppCompatActivity {
      * 初始化控件
      */
     private void initView() {
+        mNavButton = findViewById(R.id.nav_button);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         //下拉刷新
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -125,6 +134,18 @@ public class WeatherActivity extends AppCompatActivity {
         mCarWashText = findViewById(R.id.car_wash_text);
         mSportText = findViewById(R.id.sport_text);
         mBingPicImg = findViewById(R.id.skin_bing_pic_img);
+    }
+
+    /**
+     * 监听事件
+     */
+    private void setListener(){
+        mNavButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.START);
+            }
+        });
     }
 
     /**
