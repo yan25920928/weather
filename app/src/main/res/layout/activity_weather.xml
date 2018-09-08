@@ -11,30 +11,37 @@
     <ImageView
         android:id="@+id/skin_bing_pic_img"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_height="match_parent"/>
-
-    <ScrollView
-        android:id="@+id/weather_layout"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:scaleType="centerCrop"/>
 
-        <LinearLayout
+    <!--下拉刷新 要包裹需刷新的子控件-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/weather_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
-            <include layout="@layout/title"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <include layout="@layout/now"/>
+                <include layout="@layout/title"/>
 
-            <include layout="@layout/forecast"/>
+                <include layout="@layout/now"/>
 
-            <include layout="@layout/api"/>
+                <include layout="@layout/forecast"/>
 
-            <include layout="@layout/suggestion"/>
-        </LinearLayout>
-    </ScrollView>
+                <include layout="@layout/api"/>
+
+                <include layout="@layout/suggestion"/>
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>
